@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 
-import isValidProductEntry from './lib/validateFunctions';
-
 export default function ProductForm({ submitFunction }) {
   const initialProduct = {
     name: '',
@@ -30,12 +28,8 @@ export default function ProductForm({ submitFunction }) {
   function submitForm(event) {
     event.preventDefault();
     console.log(product);
-    if (isValidProductEntry(product)) {
-      submitFunction(product);
-      setProduct(initialProduct);
-    } else {
-      console.error('Could not validate product entry.', product);
-    }
+    submitFunction(product);
+    setProduct(initialProduct);
   }
 
   return (
