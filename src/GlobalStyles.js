@@ -10,5 +10,7 @@ body {
   font-size: 1.25rem;
   margin: 0;
   padding: 0%;
+  background-color: #2a1d32;
+  color: white;
 }
 `;

@@ -8,7 +8,7 @@ function App() {
 
   const addProduct = (product) =>
     setProducts([...products, { ...product, id: uuidv4() }]);
-  console.log(products);
+
   return (
     <div>
       <ProductForm submitFunction={addProduct} />

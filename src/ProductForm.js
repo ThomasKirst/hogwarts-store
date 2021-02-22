@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 
+import isValidProductEntry from './lib/validateFunctions';
+
 export default function ProductForm({ submitFunction }) {
   const initialProduct = {
     name: '',
@@ -27,38 +29,52 @@ export default function ProductForm({ submitFunction }) {
 
   function submitForm(event) {
     event.preventDefault();
-    submitFunction(product);
-    setProduct(initialProduct);
+    console.log(product);
+    if (isValidProductEntry(product)) {
+      submitFunction(product);
+      setProduct(initialProduct);
+    } else {
+      console.error('Could not validate product entry.', product);
+    }
   }
 
   return (
     <Form onSubmit={submitForm}>
       <h2>Add new Product</h2>
-      <label htmlFor="name">Product Name</label>
-      <input
-        type="text"
-        name="name"
-        value={product.name}
-        onChange={handleChange}
-      />
       <div>
-        <label htmlFor="price">Price</label>
-        <input
-          type="number"
-          name="price"
-          value={product.price}
-          onChange={handleChange}
-        />
-        <label htmlFor="currency">Currency</label>
+        <label htmlFor="name">Product Name</label>
         <input
           type="text"
-          name="currency"
-          value={product.currency}
+          name="name"
+          value={product.name}
           onChange={handleChange}
         />
       </div>
       <div>
+        <Pricing>
+          <div>
+            <label htmlFor="price">Price</label>
+            <input
+              type="text"
+              name="price"
+              value={product.price}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="currency">Currency</label>
+            <input
+              type="text"
+              name="currency"
+              value={product.currency}
+              onChange={handleChange}
+            />
+          </div>
+        </Pricing>
+      </div>
+      <div>
         <label htmlFor="category">Category</label>
+        <br />
         <select
           name="category"
           value={product.category}
@@ -74,6 +90,7 @@ export default function ProductForm({ submitFunction }) {
       </div>
       <div>
         Package size
+        <br />
         <label>
           <input
             type="radio"
@@ -109,8 +126,8 @@ export default function ProductForm({ submitFunction }) {
         <label htmlFor="name">Support contact(email)</label>
         <input
           type="email"
-          name="email"
-          value={product.email}
+          name="supportContact"
+          value={product.supportContact}
           onChange={handleChange}
         />
       </div>
@@ -132,15 +149,49 @@ export default function ProductForm({ submitFunction }) {
         />
         On sale
       </label>
-      <button>Add</button>
-      <button type="reset">Cancel</button>
+      <ButtonBar>
+        <button type="submit">Add</button>
+        <button type="reset">Cancel</button>
+      </ButtonBar>
     </Form>
   );
 }
+
+const ButtonBar = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  button {
+    border: none;
+    padding: 0.3rem 2rem;
+    width: 48%;
+  }
+  button[type='submit'] {
+    background: #bad6e5;
+  }
+`;
+
+const Pricing = styled.div`
+  display: flex;
+  div {
+    margin-right: 1rem;
+  }
+`;
 
 const Form = styled.form`
   display: grid;
   gap: 1rem;
   max-width: 500px;
+  padding: 0.5rem 1rem;
   margin: 0 auto;
+
+  label {
+    padding-bottom: 0.5rem;
+  }
+
+  input[type='number'],
+  input[type='email'],
+  input[type='text'] {
+    display: block;
+    margin-top: 0.3rem;
+  }
 `;
