@@ -17,7 +17,7 @@ export default function ProductForm({ submitFunction }) {
   const handleChange = (event) => {
     const field = event.target;
     let value = event.target.value;
-    console.log(event.target.type);
+
     if (event.target.type === 'checkbox') {
       value = event.target.checked;
     }
