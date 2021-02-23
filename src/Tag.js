@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 export default function Tag({ headline, onCreateTag, onDeleteTag, tags }) {
   const [value, setValue] = useState('');
+  const [selectedTagIndex, setSelectedTagIndex] = useState(-1);
 
   const handleChange = (event) => setValue(event.target.value);
 
@@ -14,16 +15,39 @@ export default function Tag({ headline, onCreateTag, onDeleteTag, tags }) {
       setValue('');
     }
     if (event.key === 'Backspace') {
-      onDeleteTag(tags[tags.length - 1]);
+      if (selectedTagIndex >= 0) {
+        onDeleteTag(tags[selectedTagIndex]);
+      } else {
+        onDeleteTag(tags[tags.length - 1]);
+      }
+      setSelectedTagIndex(-1);
+    }
+    if (event.key === 'ArrowLeft') {
+      if (selectedTagIndex <= 0) {
+        setSelectedTagIndex(tags.length - 1);
+      } else {
+        setSelectedTagIndex(selectedTagIndex - 1);
+      }
+    }
+    if (event.key === 'ArrowRight') {
+      if (selectedTagIndex === tags.length - 1) {
+        setSelectedTagIndex(0);
+      } else {
+        setSelectedTagIndex(selectedTagIndex + 1);
+      }
     }
   };
-
   return (
     <>
       <label htmlFor="tags">{headline}</label>
       <TagsList>
         {tags.map((tag, index) => (
-          <span key={index}>
+          <span
+            key={index}
+            style={{
+              background: selectedTagIndex === index ? 'aqua' : 'deeppink',
+            }}
+          >
             {tag} <i onClick={() => onDeleteTag(tag)}>&times;</i>
           </span>
         ))}
