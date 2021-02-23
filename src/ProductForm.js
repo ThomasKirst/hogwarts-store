@@ -140,6 +140,7 @@ export default function ProductForm({ submitFunction }) {
       </div>
       <div>
         <Tag
+          headline="Product Tags"
           onCreateTag={addProductTag}
           onDeleteTag={deleteProductTag}
           tags={product.tags}
@@ -198,5 +199,13 @@ const Form = styled.form`
   input[type='text'] {
     display: block;
     margin-top: 0.3rem;
+    padding: 0.3rem;
+    width: 100%;
+    border-radius: 3px;
+  }
+
+  select {
+    border-radius: 3px;
+    padding: 0.3rem;
   }
 `;
