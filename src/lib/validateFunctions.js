@@ -1,8 +1,8 @@
-const isValidProductName = (name) => name && name.length >= 2;
+export const isValidProductName = (name) => name && name.length >= 2;
 
-const isValidEmail = (email) => (email ? email.includes('@') : false);
+export const isValidEmail = (email) => (email ? email.includes('@') : false);
 
-const isValidPrice = (price) => {
+export const isValidPrice = (price) => {
   if (!price) return false;
 
   if (price.includes(',')) {
