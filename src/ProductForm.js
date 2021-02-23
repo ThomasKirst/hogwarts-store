@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
 
-import isValidProductEntry from './lib/validateFunctions';
+import Tag from './Tag';
 
 export default function ProductForm({ submitFunction }) {
   const initialProduct = {
@@ -19,7 +19,7 @@ export default function ProductForm({ submitFunction }) {
   const handleChange = (event) => {
     const field = event.target;
     let value = event.target.value;
-    console.log(event.target.type);
+
     if (event.target.type === 'checkbox') {
       value = event.target.checked;
     }
@@ -27,15 +27,22 @@ export default function ProductForm({ submitFunction }) {
     setProduct({ ...product, [field.name]: value });
   };
 
+  const addProductTag = (tag) => {
+    setProduct({
+      ...product,
+      tags: [...product.tags, tag],
+    });
+  };
+
+  const deleteProductTag = (tagToDelete) => {
+    const updatedTags = product.tags.filter((tag) => tag !== tagToDelete);
+    setProduct({ ...product, tags: updatedTags });
+  };
+
   function submitForm(event) {
     event.preventDefault();
-    console.log(product);
-    if (isValidProductEntry(product)) {
-      submitFunction(product);
-      setProduct(initialProduct);
-    } else {
-      console.error('Could not validate product entry.', product);
-    }
+    submitFunction(product);
+    setProduct(initialProduct);
   }
 
   return (
@@ -132,12 +139,10 @@ export default function ProductForm({ submitFunction }) {
         />
       </div>
       <div>
-        <label htmlFor="tags">Product Tags</label>
-        <input
-          type="text"
-          name="tags"
-          value={product.tags}
-          onChange={handleChange}
+        <Tag
+          onCreateTag={addProductTag}
+          onDeleteTag={deleteProductTag}
+          tags={product.tags}
         />
       </div>
       <label>

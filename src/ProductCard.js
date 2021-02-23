@@ -11,7 +11,11 @@ export default function ProductCard({ product }) {
       </p>
       <p>Package Size: {product.packageSize}</p>
       <p>{product.supportContact}</p>
-      <p>{product.tags}</p>
+      <p>
+        {product.tags.map((tag, index) => (
+          <span key={index}>{tag}</span>
+        ))}
+      </p>
     </Card>
   );
 }
