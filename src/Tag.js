@@ -13,6 +13,9 @@ export default function Tag({ headline, onCreateTag, onDeleteTag, tags }) {
       onCreateTag(value.toUpperCase());
       setValue('');
     }
+    if (event.key === 'Backspace') {
+      onDeleteTag(tags[tags.length - 1]);
+    }
   };
 
   return (
