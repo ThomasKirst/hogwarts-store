@@ -1,4 +1,6 @@
-export const isValidProductName = (name) => name && name.length >= 2;
+export const isValidProductName = (name) => {
+  return name.length >= 2;
+};
 
 export const isValidEmail = (email) => (email ? email.includes('@') : false);
 

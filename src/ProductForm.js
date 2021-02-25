@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components/macro';
+import isValidProductEntry from './lib/validateFunctions';
 
 import Tag from './Tag';
 
@@ -15,6 +16,7 @@ export default function ProductForm({ submitFunction }) {
     onSale: false,
   };
   const [product, setProduct] = useState(initialProduct);
+  const [isError, setIsError] = useState(false);
 
   const handleChange = (event) => {
     const field = event.target;
@@ -41,13 +43,19 @@ export default function ProductForm({ submitFunction }) {
 
   function submitForm(event) {
     event.preventDefault();
-    submitFunction(product);
-    setProduct(initialProduct);
+    if (isValidProductEntry(product)) {
+      setIsError(false);
+      submitFunction(product);
+      setProduct(initialProduct);
+    } else {
+      setIsError(true);
+    }
   }
 
   return (
     <Form onSubmit={submitForm}>
       <h2>Add new Product</h2>
+      {isError && <Error>There is an error in your form!</Error>}
       <div>
         <label htmlFor="name">Product Name</label>
         <input
@@ -162,6 +170,12 @@ export default function ProductForm({ submitFunction }) {
     </Form>
   );
 }
+
+const Error = styled.div`
+  border: 1px solid deeppink;
+  color: deeppink;
+  padding: 1rem;
+`;
 
 const ButtonBar = styled.div`
   display: flex;
